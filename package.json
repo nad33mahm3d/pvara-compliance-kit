@@ -49,6 +49,9 @@
     "url": "https://github.com/nad33mahm3d/pvara-compliance-kit/issues"
   },
   "homepage": "https://github.com/nad33mahm3d/pvara-compliance-kit#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "zod": "^3.24.2"
   },

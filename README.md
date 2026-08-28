@@ -122,6 +122,37 @@ When you update a checklist item, threshold note, or category rule:
 3. Prefer leaving a field as “verify with PVARA” over inventing a fee or threshold.  
 4. Do not claim affiliation with PVARA.
 
+## Publishing releases
+
+CI runs on every push/PR. **npm publish** runs from [`.github/workflows/publish.yml`](./.github/workflows/publish.yml) when you publish a GitHub Release.
+
+### One-time: connect Trusted Publishing (recommended)
+
+1. Open https://www.npmjs.com/package/pvara-compliance-kit → **Settings** → **Trusted Publisher**
+2. Choose **GitHub Actions** and set:
+   - **Organization or user:** `nad33mahm3d`
+   - **Repository:** `pvara-compliance-kit`
+   - **Workflow filename:** `publish.yml` (filename only)
+   - Allow **npm publish**
+3. No long-lived npm token needed for CI after this. Provenance is generated automatically.
+
+Optional fallback: add repo secret `NPM_TOKEN` (granular token with Bypass 2FA) if Trusted Publishing is not configured yet.
+
+### Cut a release
+
+1. Bump `"version"` in `package.json` (e.g. `0.2.1`) and push to `main`
+2. Create a GitHub Release whose tag matches that version (`v0.2.1` or `0.2.1`)
+3. The Publish workflow runs tests/build and publishes to npm
+
+```bash
+# example
+npm version patch --no-git-tag-version   # or edit package.json by hand
+git add package.json package-lock.json
+git commit -m "Release 0.2.1"
+git push origin main
+gh release create v0.2.1 --generate-notes
+```
+
 ## Still out of kit scope
 
 - Live sanctions list data or vendor SDKs (wire your own `TfsScreeningAdapter`)  
